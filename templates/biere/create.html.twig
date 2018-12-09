@@ -1,0 +1,10 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ajouter une nouvelle bière{% endblock %}
+
+{% block body %}
+    {{ form_start(form) }}
+    {{ form_rest(form) }}
+    <button class="btn btn-dark" type="submit">Valider</button>
+    {{ form_end(form) }}
+{% endblock %}
