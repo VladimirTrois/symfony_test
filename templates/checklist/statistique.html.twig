@@ -1,62 +1,73 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Checklist{% endblock %}
+{% block title %}Stats{% endblock %}
 
 {% block body %}
     <div class="jumbotron">
         <div class="row">
-            <div class="col-md-2"></div>
-            <div class="col-md-3">
-                <h1>Checklist de {{app.user.pseudo}}</h1>
+            <div class="col-md-7">
+                <h1>Statistiques de {{app.user.pseudo}}</h1>
             </div>
-            <div class="col-md-7 text-center">
+            <div class="col-md-4 ">
                 <h3>
-                    Total de bière bu {{ totalBu }}
-                    <br>
-                    Total de bière unique bu {{ totalDistinctBu }}
+                    <h3> {{ nbBiere }} {% if nbBiere>=1 %}bières bues{% else %}bière bue{% endif %}</h3>
+                    <h3> {{ nbBiereDistinct }} {% if nbBiereDistinct>=1 %}bières différentes{% else %}bière différente{% endif %}</h3>
                 </h3>
             </div>
         </div>
     </div>
-    <div class="row">
-        <div class="col-md-2">
-            <div class="form-group">
-                <a href="{{ path('biere.create') }}" class="btn btn-dark btn-block">Ajouter une bière</a>
-            </div>
-            <div class="form-group">
-                <a href="{{ path('brasserie.create') }}" class="btn btn-dark btn-block">Ajouter un brasseur</a>
-            </div>
-            <div class="form-group">
-            <a href="{{ path('revendeur.create') }}" class="btn btn-dark btn-block">Ajouter un revendeur</a>
-            </div>
-        </div>
-        <div class="col-md-9">
-            {{ form_start(form) }}
-            <div class="form-row">
-                <div class="col">
-                    {{ form_row(form.nom) }}
-                </div>
-                <div class="col">
-                    <button class="btn btn-dark" type="submit">Valider</button>
-                </div>
-            </div>
-            {{ form_end(form) }}
-            {% for biere in bieres %}
-                <div class="card">
-                    <div class="card-body">
-                        <div class="card-title">
-                            Nom: <a href="{{ path('biere.info', {id: biere.id, slug: biere.slug}) }}">{{ biere.nom }}</a> Brasserie: {{ biere.idBrasserie }}
-                            <a href="{{ path('ajoutBiere', {id: biere.id, slug: biere.slug} ) }}" class="btn btn-dark float-right">Ajouter</a>
-                        </div>
-
-                    </div>
-                </div>
-            {% endfor %}
-        </div>
-    </div>
 
 
-        <div class="container">
+
+    {%  if nbBiere > 0 %}
+        <table class="table table-borderless  text-center">
+            <thead>
+                <tr>
+                    <th>Par Type</th>
+                    <th> Par Origine</th>
+                    <th>Bières Favorites</th>
+                </tr>
+            </thead>
+            <tbody >
+                <tr>
+                    <td>
+                        <table class="table table-borderless text-center">
+                            <tbody>
+                                {% for result in nbBiereDistinctType   %}
+                                   <tr><td><h5>{{ result.type | capitalize}}</h5></td><td><h3>{{ result.nb }}</h3></td></tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </td>
+                    <td>
+                        <table class="table table-borderless text-center">
+                            <tbody>
+                            {% for result in nbBiereDistinctOrigineBrasseur   %}
+                                <tr><td><h5>{{ result.pays | capitalize }}</h5></td><td><h3>{{ result.nb }}</h3></td></tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </td>
+                    <td>
+                        <table class="table table-borderless text-center">
+                            <tbody>
+                            {% for result in biereFavorites   %}
+                                <tr><td><h5>{{ result.nom | capitalize }}</h5></td><td><h3>{{ result.nb }}</h3></td></tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        {% else %}
+    {% endif %}
+
+
+
+
+    <div class="container">
 
         </div>
 {% endblock %}

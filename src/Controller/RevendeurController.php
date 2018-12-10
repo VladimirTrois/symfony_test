@@ -2,44 +2,46 @@
 
 namespace App\Controller;
 
-use App\Entity\Brasserie;
-use App\Form\BrasserieType;
+use App\Entity\Revendeur;
+use App\Form\RevendeurType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Twig\Environment;
 
-class BrasserieController extends AbstractController
+class RevendeurController extends AbstractController
 {
 
     /**
-     * @Route( "/brasserie/info", name="brasserie")
+     * @Route( "/revendeur/show", name="revendeur")
      * @return Response
      */
-    public function index(): Response
+    public function show(): Response
     {
-        return $this->render('brasserie/info.html.twig');
+        return $this->render('revendeur/show.html.twig');
 
     }
 
     /**
-     * @Route("/brasserie/create", name="brasserie.create")
+     * @Route("/revendeur/create", name="revendeur.create")
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
      */
     public function new(Request $request){
 
-        $brasserie= new brasserie();
-        $form = $this->createForm(BrasserieType::class, $brasserie);
+        $revendeur= new revendeur();
+        $form = $this->createForm(RevendeurType::class, $revendeur);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($brasserie);
+            $entityManager->persist($revendeur);
             $entityManager->flush();
 
             return $this->redirectToRoute('checklist');
         }
 
-        return $this->render('brasserie/create.html.twig', array('form' => $form->createView()) );
+        return $this->render('revendeur/create.html.twig', array('form' => $form->createView()) );
     }
 }

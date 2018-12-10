@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+    <!-- Custom styles for this template -->
+    <link href="https://getbootstrap.com/docs/3.3/examples/signin/signin.css" rel="stylesheet">
+{% endblock %}
+
+{% block title %}Connexion{% endblock %}
+
+{% block body %}
+    <div class="container">
+    <form method="post" class="form-signin">
+
+        <h2 class="form-signin text-center">Connexion</h2>
+        {% if error %}
+            <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+        {% endif %}
+        <div class="form-group">
+        <label for="inputEmail" class="sr-only">Email</label>
+        <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" placeholder="Email" required autofocus>
+        </div>
+        <div class="form-group">
+            <label for="inputPassword" class="sr-only">Passeword</label>
+        <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Mot de passe" required>
+        </div>
+            <input type="hidden" name="_csrf_token"
+               value="{{ csrf_token('authenticate') }}"
+        >
+
+        <a href="{{ path('inscription') }}" class="btn btn-lg btn-dark">Inscription</a>
+        <button class="btn btn-lg btn-dark float-right" type="submit">Connexion</button>
+
+    </form>
+    </div>
+{% endblock %}

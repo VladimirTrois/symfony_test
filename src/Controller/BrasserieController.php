@@ -2,44 +2,44 @@
 
 namespace App\Controller;
 
-use App\Entity\Biere;
-use App\Form\BiereType;
+use App\Entity\Brasserie;
+use App\Form\BrasserieType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Twig\Environment;
 
-class BiereController extends AbstractController
+class BrasserieController extends AbstractController
 {
 
     /**
-     * @Route( "/biere/info", name="biere")
+     * @Route( "/brasserie/info", name="brasserie")
      * @return Response
      */
     public function index(): Response
     {
-        return $this->render('biere/info.html.twig');
+        return $this->render('brasserie/show.html.twig');
 
     }
 
     /**
-     * @Route("/biere/create", name="biere.create")
+     * @Route("/brasserie/create", name="brasserie.create")
      */
     public function new(Request $request){
 
-        $biere= new biere();
-        $form = $this->createForm(BiereType::class, $biere);
+        $brasserie= new brasserie();
+        $form = $this->createForm(BrasserieType::class, $brasserie);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($biere);
+            $entityManager->persist($brasserie);
             $entityManager->flush();
 
-            return $this->redirectToRoute('profile');
+            return $this->redirectToRoute('checklist');
         }
 
-        return $this->render('biere/create.html.twig', array('form' => $form->createView()) );
+        return $this->render('brasserie/create.html.twig', array('form' => $form->createView()) );
     }
 }

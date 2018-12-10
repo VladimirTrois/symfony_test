@@ -3,11 +3,42 @@
 {% block title biere.nom  %}
 
 {% block body %}
-
-    {{ biere.nom }}
-    {{ biere.robe }}
-    {{ biere.abv }}
-    {{ biere.ibu }}
-    {{ biere.type }}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-2"></div>
+            <div class="jumbotron col-md-8 ">
+                <table class="table table-borderless text-center">
+                    <tbody>
+                        <tr>
+                            <td colspan="2" rowspan="2"><h1> {{ biere.nom }}</h1></td>
+                            <td> <h4>{{ biere.robe }}</h4></td>
+                            <td> <h5>robe</h5></td>
+                        </tr>
+                        <tr>
+                            <td><h4>{{ biere.type }}</h4></td>
+                            <td><h5>type</h5></td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" rowspan="2"><h4> {{ biere.description | nl2br }}</h4></td>
+                            <td>
+                                <h4>{{ biere.ibu }}</h4></td>
+                            <td><h5>ibu</h5></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <h4>{{ biere.abv }}</h4></td>
+                            <td><h5>%</h5></td>
+                        </tr>
+                        <tr>
+                            <td colspan="4">
+                                <a role="button" href="{{ path('ajoutBiere', {id: biere.id, slug: biere.slug} ) }}" class="btn btn-dark">Ajouter</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-md-2"></div>
+        </div>
+    </div>
 
 {% endblock %}

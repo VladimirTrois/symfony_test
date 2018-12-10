@@ -1,0 +1,58 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Checklist{% endblock %}
+
+{% block body %}
+    <div class="jumbotron">
+        <div class="row">
+            <div class="col-md-7">
+                <h1>Checklist de {{app.user.pseudo}}</h1>
+            </div>
+            <div class="col-md-4 ">
+                <h3>
+                    <h3> {{ nbBiere }} {% if nbBiere>=1 %}bières bues{% else %}bière bue{% endif %}</h3>
+                    <h3> {{ nbBiereDistinct }} {% if nbBiereDistinct>=1 %}bières différentes{% else %}bière différente{% endif %}</h3>
+                </h3>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            {{ form_start(form) }}
+            <div class="form-row">
+                <div class="col">
+                    {{ form_row(form.nom) }}
+                </div>
+                <div class="col">
+                    <button class="btn btn-dark" type="submit">Chercher</button>
+                </div>
+                <div class="col">
+                    <a role="button" href="{{ path('biere.create') }}" class="btn btn-secondary">Ajouter une bière si vous ne la trouvez pas</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-8">
+            {{ form_end(form) }}
+            {% if bieres==null %}
+                <h4>Aucun résultat trouver</h4>
+            {% endif %}
+            {% for biere in bieres %}
+                <div class="card">
+                    <div class="card-body" >
+                        <h3>
+                            <a class="text-dark" href="{{ path('biere.info', {id: biere.id, slug: biere.slug})}}">
+                               {{ biere.nom }}
+                            </a>
+                            <h5>
+                                de la brasserie {{ biere.idBrasserie }}
+                                <a role="button" href="{{ path('ajoutBiere', {id: biere.id, slug: biere.slug} ) }}" class="btn btn-success float-right">Boire</a>
+                            </h5>
+                         </h3>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
